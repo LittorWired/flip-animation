@@ -1,0 +1,106 @@
+:root {
+  --header-footer-size: 40px;
+  --sidebar-max-width: 400px;
+  --zIndex-header-footer: 1;
+  --zIndex-sidebar: 2;
+  --transition-timing-ms: 150ms;
+  --transition-translate-linear: var(--transition-timing-ms) translate linear;
+  --transition-translate-scale: var(--transition-timing-ms) scale linear;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: sans-serif;
+  font-size: 16px;
+  padding: 0;
+  margin: 0;
+}
+
+#app {
+  overflow: hidden;
+  position: relative;
+  min-height: calc(var(--vh) * 100);
+}
+
+/* HEADER AND FOOTER */
+.header,
+.footer {
+  height: var(--header-footer-size);
+  width: 100%;
+  position: fixed;
+  background-color: violet;
+  display: grid;
+  place-content: center;
+
+  z-index: var(--zIndex-header-footer);
+  /* animate hide/show */
+  transition: var(--transition-translate-linear);
+  will-change: translate;
+}
+
+/* hide */
+.header {
+  top: 0;
+  translate: 0 calc(var(--header-footer-size) * -1);
+}
+.footer {
+  bottom: 0;
+  translate: 0 var(--header-footer-size);
+}
+
+/* show */
+.active-footer,
+.active-header {
+  translate: 0 0px;
+}
+
+/* SIDEBAR */
+
+/* is always open but off screen */
+.sidebar {
+  position: absolute;
+  margin-top: var(--header-footer-size);
+  top: 0;
+  right: 0;
+  height: calc(100% - calc(var(--header-footer-size) * 2));
+  width: 100%;
+  max-width: var(--sidebar-max-width);
+  background-color: orange;
+  display: grid;
+  place-content: center;
+  /* animate  */
+  translate: 100%;
+  transition: var(--transition-translate-linear);
+  z-index: var(--zIndex-sidebar);
+  will-change: translate;
+}
+/* show */
+.sidebar-open {
+  translate: 0%;
+  transition: var(--transition-translate-linear);
+}
+
+/* MCU  */
+video {
+  height: 100%;
+  width: 100%;
+  min-width: 100%;
+  min-height: 100%;
+}
+
+.mcu {
+  background-color: darkred;
+  width: calc(100% - var(--sidebar-max-width));
+  color: white;
+  position: absolute;
+  top: 50%;
+  left: 0%;
+
+  /** translate and scale are applied inline see function flip in index.ts*/
+  transition: var(--transition-translate-linear),
+    var(--transition-translate-scale);
+  will-change: translate, scale;
+}
